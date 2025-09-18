@@ -13,6 +13,7 @@ func decrease_health():
 		else:
 			hearts[h].hide()
 	if(lives==0):
+		print("DEAD!!!")
 		get_tree().call_deferred("reload_current_scene")
 func add_point() -> void:
 	points += 1

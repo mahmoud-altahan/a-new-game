@@ -11,20 +11,30 @@ func jump_aside(x):
 		velocity.y = JUMP_VELOCITY
 		velocity.x = x
 func _physics_process(delta: float) -> void:
-	if (velocity.x>0 || velocity.x < -1):
-		sprite_2d.animation = "run"
-	else:
-			sprite_2d.animation = "default"
+	
 	# Add the gravity.
 	if is_on_floor():
 		jump_count = 0
+		if (velocity.x>0 || velocity.x < -1):
+			sprite_2d.animation = "run"
+		else:
+			sprite_2d.animation = "default"
+	
 	else:
 		velocity += get_gravity() * delta
-		sprite_2d.animation = "jump"
+		if(jump_count==2):
+			sprite_2d.animation = "d_jump"
+		elif(jump_count==1):
+			sprite_2d.animation = "jump"
+		else:
+			sprite_2d.animation = "fall"
+			
 	# Handle jump.
 	if Input.is_action_just_pressed("jump") and jump_count < 2:
 		velocity.y = JUMP_VELOCITY
 		jump_count += 1
+		
+
 
 	# Get the input direction and handle the movement/deceleration.
 	# As good practice, you should replace UI actions with custom gameplay actions.
@@ -38,3 +48,5 @@ func _physics_process(delta: float) -> void:
 	
 	var isleft = velocity.x < 0
 	sprite_2d.flip_h = isleft
+	
+	
